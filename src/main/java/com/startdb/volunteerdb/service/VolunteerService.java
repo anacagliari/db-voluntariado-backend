@@ -25,5 +25,16 @@ public class VolunteerService {
   public Volunteer getVolunteerById(Long id) {
         return volunteerRepository.findById(id).orElse(null);
     }
-  
+
+  public Volunteer updateVolunteer(Long id, Volunteer updatedVolunteer) {
+    return volunteerRepository.findById(id).map(volunteer -> {
+      volunteer.setName(updatedVolunteer.getName());
+      volunteer.setPhone(updatedVolunteer.getPhone());
+      volunteer.setEmail(updatedVolunteer.getEmail());
+      volunteer.setAddress(updatedVolunteer.getAddress());
+      volunteer.setAreasDeSuporte(updatedVolunteer.getAreasDeSuporte());
+      return volunteerRepository.save(volunteer);
+    }).orElse(null);
+  }
+
 }
