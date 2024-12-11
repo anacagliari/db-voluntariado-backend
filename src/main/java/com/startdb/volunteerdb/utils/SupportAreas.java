@@ -9,5 +9,4 @@ public class SupportAreas {
         "Realização de Tarefas Cotidianas",
         "Participação em Atividades Recreativas"
     );
-  
 }
