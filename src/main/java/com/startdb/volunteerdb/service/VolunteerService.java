@@ -37,4 +37,12 @@ public class VolunteerService {
     }).orElse(null);
   }
 
+  public boolean deleteVolunteer(Long id) {
+    if (volunteerRepository.existsById(id)) {
+        volunteerRepository.deleteById(id);
+        return true; 
+    }
+    return false; 
+}
+
 }
