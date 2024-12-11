@@ -21,5 +21,9 @@ public class VolunteerService {
   public List<Volunteer> getAllVolunteers() {
         return volunteerRepository.findAll();
     }
+
+  public Volunteer getVolunteerById(Long id) {
+        return volunteerRepository.findById(id).orElse(null);
+    }
   
 }
