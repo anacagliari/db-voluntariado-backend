@@ -4,10 +4,14 @@ package com.startdb.volunteerdb.model;
 
 import java.util.List;
 
+import jakarta.persistence.CollectionTable;
+import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
@@ -23,7 +27,7 @@ public class Volunteer {
   private String gender;
 
   @NotNull(message = "A idade é obrigatória")
-  private int age; 
+  private Integer age; 
 
   @NotNull(message = "O cpf é obrigatório")
   private String cpf;
@@ -43,14 +47,17 @@ public class Volunteer {
   @NotNull(message = "A cidde é obrigatório")
   private String city;
 
-  @NotNull
+  @ElementCollection
+  @CollectionTable(name = "volunteer_area_de_suporte", joinColumns = @JoinColumn(name = "volunteer_id"))
+  @Column(name = "area_de_suporte")
+  @NotNull(message = "A area de suporte é obrigatória")
   private List<String> areasDeSuporte;
 
 
 public Volunteer() {
   }
 
-  public Volunteer(String name, String gender, int age, String cpf, String phone, String cep, String city, String email, String address, List<String> areasDeSuporte) {
+  public Volunteer(String name, String gender, Integer age, String cpf, String phone, String cep, String city, String email, String address, List<String> areasDeSuporte) {
     this.name = name;
     this.gender = gender;
     this.age = age;
@@ -82,11 +89,11 @@ public Volunteer() {
     this.gender = gender;
   }
 
-  public int getAge( ) {
+  public Integer getAge( ) {
     return age;
   }
 
-  public void setAge(int age) {
+  public void setAge(Integer age) {
     this.age = age;
   }
 
@@ -142,7 +149,7 @@ public Volunteer() {
     return areasDeSuporte;
 }
 
-public void setAreasDeSuporte(List<String> areasDeSuporte) {
+  public void setAreasDeSuporte(List<String> areasDeSuporte) {
     this.areasDeSuporte = areasDeSuporte;
 }
 

@@ -26,74 +26,43 @@ public class VolunteerController {
 
     @PostMapping
     public ResponseEntity<Volunteer> createVolunteer(@RequestBody Volunteer volunteer) {
-        if (volunteer.getName() == null || volunteer.getName().isEmpty() ||
-            volunteer.getEmail() == null || volunteer.getEmail().isEmpty()||
-            volunteer.getPhone() == null || volunteer.getPhone().isEmpty()||
-            volunteer.getAddress() == null || volunteer.getAddress().isEmpty()||
-            volunteer.getAreasDeSuporte() == null || volunteer.getAreasDeSuporte().isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST); 
+        try {
+            Volunteer createdVolunteer = volunteerService.createVolunteer(volunteer);
+            return new ResponseEntity<>(createdVolunteer, HttpStatus.CREATED);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
-        Volunteer createdVolunteer = volunteerService.createVolunteer(volunteer);
-
-        return new ResponseEntity<>(createdVolunteer, HttpStatus.CREATED); 
     }
 
     @GetMapping
     public ResponseEntity<List<Volunteer>> getAllVolunteers() {
         List<Volunteer> volunteers = volunteerService.getAllVolunteers();
-        if (volunteers.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(volunteers, HttpStatus.OK);
+        return volunteers.isEmpty() ? 
+            new ResponseEntity<>(HttpStatus.NOT_FOUND) : 
+            new ResponseEntity<>(volunteers, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Volunteer> getVolunteerById(@PathVariable("id") Long id) {
-        if (id <= 0) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
         Volunteer volunteer = volunteerService.getVolunteerById(id);
-
-        if (volunteer == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        return new ResponseEntity<>(volunteer, HttpStatus.OK);
+        return volunteer == null ? 
+            new ResponseEntity<>(HttpStatus.NOT_FOUND) : 
+            new ResponseEntity<>(volunteer, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Volunteer> updateVolunteer( @PathVariable Long id, @RequestBody Volunteer updatedVolunteer) {
-
-    if (updatedVolunteer.getName() == null || updatedVolunteer.getName().isEmpty() ||
-        updatedVolunteer.getEmail() == null || updatedVolunteer.getEmail().isEmpty() ||
-        updatedVolunteer.getPhone() == null || updatedVolunteer.getPhone().isEmpty() ||
-        updatedVolunteer.getAddress() == null || updatedVolunteer.getAddress().isEmpty() ||
-        updatedVolunteer.getAreasDeSuporte() == null || updatedVolunteer.getAreasDeSuporte().isEmpty()) {
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-    }
-
-    Volunteer volunteer = volunteerService.updateVolunteer(id, updatedVolunteer);
-
-    if (volunteer == null) {
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-
-    return new ResponseEntity<>(volunteer, HttpStatus.OK);
+        try {
+            Volunteer volunteer = volunteerService.updateVolunteer(id, updatedVolunteer);
+            return new ResponseEntity<>(volunteer, HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteVolunteer(@PathVariable Long id) {
-        if (id == null || id <= 0) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST); 
-        }
-
-        boolean isDeleted = volunteerService.deleteVolunteer(id);
-
-        if (!isDeleted) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND); 
-        }
+        volunteerService.deleteVolunteer(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
