@@ -57,6 +57,10 @@ public class VolunteerService {
     if (id == null) {
       throw new IllegalArgumentException("ID não informado.");
     }
+    if (!volunteerRepository.existsById(id)) {
+      throw new IllegalArgumentException("Voluntário não encontrado.");
+    }
+
     volunteerRepository.deleteById(id);
   }
 
