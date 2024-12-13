@@ -1,5 +1,6 @@
 package com.startdb.volunteerdb.model;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import jakarta.persistence.CollectionTable;
@@ -45,17 +46,23 @@ public class Beneficiary {
     @NotNull(message = "A cidade é obrigatório")
     private String city;
 
+    @NotNull(message = "A data de início é obrigatória")
+    private LocalDate dateFrom;
+
+    @NotNull(message = "A data de término é obrigatória")
+    private LocalDate dateTo;
+
     @ElementCollection
-    @CollectionTable(name = "volunteer_area_de_suporte", joinColumns = @JoinColumn(name = "volunteer_id"))
-    @Column(name = "area_de_suporte")
+    @CollectionTable(name = "beneficiary_support_area", joinColumns = @JoinColumn(name = "beneficiary_id"))
+    @Column(name = "support_area")
     @NotNull(message = "A area de suporte é obrigatória")
-    private List<String> areasDeSuporte;
+    private List<String> supportArea;
 
     public Beneficiary() {
     }
 
     public Beneficiary(String name, String gender, Integer age, String cpf, String phone, String cep, String city,
-            String email, String address, List<String> areasDeSuporte) {
+            String email, String address, LocalDate dateFrom, LocalDate dateTo, List<String> supportArea) {
         this.name = name;
         this.gender = gender;
         this.age = age;
@@ -65,7 +72,9 @@ public class Beneficiary {
         this.cep = cep;
         this.city = city;
         this.address = address;
-        this.areasDeSuporte = areasDeSuporte;
+        this.dateFrom = LocalDate.now();
+        this.dateTo = LocalDate.now();
+        this.supportArea = supportArea;
     }
 
     public Long getId() {
@@ -144,12 +153,28 @@ public class Beneficiary {
         this.address = address;
     }
 
-    public List<String> getAreasDeSuporte() {
-        return areasDeSuporte;
+    public LocalDate getDateFrom() {
+        return dateFrom;
     }
 
-    public void setAreasDeSuporte(List<String> areasDeSuporte) {
-        this.areasDeSuporte = areasDeSuporte;
+    public void setDateFrom(LocalDate dateFrom) {
+        this.dateFrom = dateFrom;
+    }  
+
+    public LocalDate getDateTo() {
+        return dateTo;
+    }
+
+    public void setDateTo(LocalDate dateTo) {
+        this.dateTo = dateTo;
+    }
+
+    public List<String> getSupportArea() {
+        return supportArea;
+    }
+
+    public void setSupportArea(List<String> supportArea) {
+        this.supportArea = supportArea;
     }
 
 }

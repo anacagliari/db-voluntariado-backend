@@ -48,7 +48,9 @@ public class BeneficiaryService {
         beneficiaryExistente.setCep(beneficiary.getCep());
         beneficiaryExistente.setAddress(beneficiary.getAddress());
         beneficiaryExistente.setCity(beneficiary.getCity());
-        beneficiaryExistente.setAreasDeSuporte(beneficiary.getAreasDeSuporte());
+        beneficiaryExistente.setDateFrom(beneficiary.getDateFrom());
+        beneficiaryExistente.setDateTo(beneficiary.getDateTo());
+        beneficiaryExistente.setSupportArea(beneficiary.getSupportArea());
 
         return beneficiaryRepository.save(beneficiaryExistente);
     }
@@ -58,7 +60,7 @@ public class BeneficiaryService {
             throw new IllegalArgumentException("ID não informado.");
         }
         if (!beneficiaryRepository.existsById(id)) {
-            throw new IllegalArgumentException("Voluntário não encontrado.");
+            throw new IllegalArgumentException("Beneficiário não encontrado.");
         }
 
         beneficiaryRepository.deleteById(id);
@@ -66,17 +68,17 @@ public class BeneficiaryService {
 
     private void validateSaveBeneficiary(Beneficiary beneficiary, Beneficiary beneficiaryExistente) {
         if (beneficiary.getName() == null || beneficiary.getName().isEmpty()) {
-            throw new IllegalArgumentException("Nome do voluntário é obrigatório.");
+            throw new IllegalArgumentException("Nome do beneficiário é obrigatório.");
         }
         if (!beneficiary.getGender().equalsIgnoreCase(GenderEnum.FEMININO.getValor())
                 && !beneficiary.getGender().equalsIgnoreCase(GenderEnum.MASCULINO.getValor())) {
             throw new IllegalArgumentException("Gênero é obrigatório.");
         }
         if (beneficiary.getAge() == null) {
-            throw new IllegalArgumentException("Idade do voluntário é obrigatório.");
+            throw new IllegalArgumentException("Idade do beneficiário é obrigatório.");
         }
         if (beneficiary.getCpf() == null || beneficiary.getCpf().isEmpty()) {
-            throw new IllegalArgumentException("CPF do voluntário é obrigatório.");
+            throw new IllegalArgumentException("CPF do beneficiário é obrigatório.");
         }
         if (beneficiary.getCpf().length() != 11) {
             throw new IllegalArgumentException("CPF deve conter onze dígitos numérico.");
@@ -106,7 +108,13 @@ public class BeneficiaryService {
         if (beneficiary.getCity() == null) {
             throw new IllegalArgumentException("A cidade é obrigatória.");
         }
-        if (beneficiary.getAreasDeSuporte() == null || beneficiary.getAreasDeSuporte().isEmpty()) {
+        if (beneficiary.getDateFrom() == null) {
+            throw new IllegalArgumentException("A data de início é obrigatória.");
+        }
+        if (beneficiary.getDateTo() == null) {
+            throw new IllegalArgumentException("A data de término é obrigatória.");
+        }
+        if (beneficiary.getSupportArea() == null || beneficiary.getSupportArea().isEmpty()) {
             throw new IllegalArgumentException("A área de suporte é obrigatória.");
         }
     }

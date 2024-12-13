@@ -48,7 +48,7 @@ public class VolunteerService {
     volunteerExistente.setCep(volunteer.getCep());
     volunteerExistente.setAddress(volunteer.getAddress());
     volunteerExistente.setCity(volunteer.getCity());
-    volunteerExistente.setAreasDeSuporte(volunteer.getAreasDeSuporte());
+    volunteerExistente.setSupportArea(volunteer.getSupportArea());
 
     return volunteerRepository.save(volunteerExistente);
   }
@@ -106,7 +106,7 @@ public class VolunteerService {
     if (volunteer.getCity() == null) {
       throw new IllegalArgumentException("A cidade é obrigatória.");
     }
-    if (volunteer.getAreasDeSuporte() == null || volunteer.getAreasDeSuporte().isEmpty()) {
+    if (volunteer.getSupportArea() == null || volunteer.getSupportArea().isEmpty()) {
       throw new IllegalArgumentException("A área de suporte é obrigatória.");
     }
   }

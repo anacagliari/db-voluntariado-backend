@@ -19,7 +19,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import com.startdb.volunteerdb.model.AreaDeSuporte;
+import com.startdb.volunteerdb.model.SupportArea;
 import com.startdb.volunteerdb.model.Volunteer;
 import com.startdb.volunteerdb.repository.VolunteerRepository;
 
@@ -73,7 +73,7 @@ public class VolunteerServiceTest {
             "Cidade X",
             "suene@email.com",
             "Endereço 1",
-            Arrays.asList(AreaDeSuporte.PARTICIPACAO_ATIVIDADES)),
+            Arrays.asList(SupportArea.PARTICIPACAO_ATIVIDADES)),
         new Volunteer(
             "Ana Carolina",
             "Feminino",
@@ -84,7 +84,7 @@ public class VolunteerServiceTest {
             "Cidade X",
             "ana@email.com",
             "Endereço 2",
-            Arrays.asList(AreaDeSuporte.REALIZACAO_TAREFAS, AreaDeSuporte.APRENDIZADO_TECNOLOGIA)));
+            Arrays.asList(SupportArea.REALIZACAO_TAREFAS, SupportArea.APRENDIZADO_TECNOLOGIA)));
 
     when(volunteerRepository.findAll()).thenReturn(volunteers);
 
@@ -175,7 +175,7 @@ public class VolunteerServiceTest {
     volunteer.setCity("Cidade X");
     volunteer.setEmail("suene@email.com");
     volunteer.setAddress("Endereço 1");
-    volunteer.setAreasDeSuporte(Arrays.asList(AreaDeSuporte.PARTICIPACAO_ATIVIDADES));
+    volunteer.setSupportArea(Arrays.asList(SupportArea.PARTICIPACAO_ATIVIDADES));
 
     IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
       volunteerService.createVolunteer(volunteer);
