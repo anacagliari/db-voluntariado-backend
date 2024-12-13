@@ -1,7 +1,5 @@
 package com.startdb.volunteerdb.model;
 
-
-
 import java.util.List;
 
 import jakarta.persistence.CollectionTable;
@@ -27,7 +25,7 @@ public class Volunteer {
   private String gender;
 
   @NotNull(message = "A idade é obrigatória")
-  private Integer age; 
+  private Integer age;
 
   @NotNull(message = "O cpf é obrigatório")
   private String cpf;
@@ -48,16 +46,16 @@ public class Volunteer {
   private String city;
 
   @ElementCollection
-  @CollectionTable(name = "volunteer_area_de_suporte", joinColumns = @JoinColumn(name = "volunteer_id"))
-  @Column(name = "area_de_suporte")
+  @CollectionTable(name = "volunteer_support_area", joinColumns = @JoinColumn(name = "volunteer_id"))
+  @Column(name = "support_area")
   @NotNull(message = "A area de suporte é obrigatória")
-  private List<String> areasDeSuporte;
+  private List<String> supportArea;
 
-
-public Volunteer() {
+  public Volunteer() {
   }
 
-  public Volunteer(String name, String gender, Integer age, String cpf, String phone, String cep, String city, String email, String address, List<String> areasDeSuporte) {
+  public Volunteer(String name, String gender, Integer age, String cpf, String phone, String cep, String city,
+      String email, String address, List<String> supportArea) {
     this.name = name;
     this.gender = gender;
     this.age = age;
@@ -67,7 +65,7 @@ public Volunteer() {
     this.cep = cep;
     this.city = city;
     this.address = address;
-    this.areasDeSuporte = areasDeSuporte;
+    this.supportArea = supportArea;
   }
 
   public Long getId() {
@@ -81,6 +79,7 @@ public Volunteer() {
   public void setName(String name) {
     this.name = name;
   }
+
   public String getGender() {
     return gender;
   }
@@ -89,7 +88,7 @@ public Volunteer() {
     this.gender = gender;
   }
 
-  public Integer getAge( ) {
+  public Integer getAge() {
     return age;
   }
 
@@ -145,13 +144,12 @@ public Volunteer() {
     this.address = address;
   }
 
-  public List<String> getAreasDeSuporte() {
-    return areasDeSuporte;
-}
+  public List<String> getSupportArea() {
+    return supportArea;
+  }
 
-  public void setAreasDeSuporte(List<String> areasDeSuporte) {
-    this.areasDeSuporte = areasDeSuporte;
-}
-
+  public void setSupportArea(List<String> supportArea) {
+    this.supportArea = supportArea;
+  }
 
 }

@@ -1,6 +1,6 @@
 package com.startdb.volunteerdb.model;
 
-public class AreaDeSuporte {
+public class SupportArea {
   
     public static final String APRENDIZADO_TECNOLOGIA = "Aprendizado de Tecnologia";
     public static final String REALIZACAO_TAREFAS = "Realização de Tarefas Cotidianas";
