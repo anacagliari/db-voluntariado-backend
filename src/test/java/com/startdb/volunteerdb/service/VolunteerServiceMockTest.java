@@ -23,7 +23,7 @@ import com.startdb.volunteerdb.model.SupportArea;
 import com.startdb.volunteerdb.model.Volunteer;
 import com.startdb.volunteerdb.repository.VolunteerRepository;
 
-public class VolunteerServiceTest {
+public class VolunteerServiceMockTest {
 
   @Mock
   private VolunteerRepository volunteerRepository;

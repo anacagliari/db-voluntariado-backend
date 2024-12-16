@@ -24,7 +24,7 @@ import com.startdb.volunteerdb.model.SupportArea;
 import com.startdb.volunteerdb.model.Beneficiary;
 import com.startdb.volunteerdb.repository.BeneficiaryRepository;
 
-public class BeneficiaryServiceTest {
+public class BeneficiaryServiceMockTest {
 
   @Mock
   private BeneficiaryRepository beneficiaryRepository;
