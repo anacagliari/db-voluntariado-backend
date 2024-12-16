@@ -2,14 +2,16 @@ package com.startdb.volunteerdb.model;
 
 import java.util.List;
 
-import jakarta.persistence.CollectionTable;
-import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.startdb.volunteerdb.Enum.GenderEnum;
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
@@ -21,8 +23,9 @@ public class Volunteer {
   @NotNull(message = "O nome é obrigatório")
   private String name;
 
+  @Enumerated(EnumType.STRING)
   @NotNull(message = "O gênero é obrigatório")
-  private String gender;
+  private GenderEnum gender;
 
   @NotNull(message = "A idade é obrigatória")
   private Integer age;
@@ -45,17 +48,15 @@ public class Volunteer {
   @NotNull(message = "A cidde é obrigatório")
   private String city;
 
-  @ElementCollection
-  @CollectionTable(name = "volunteer_support_area", joinColumns = @JoinColumn(name = "volunteer_id"))
-  @Column(name = "support_area")
-  @NotNull(message = "A area de suporte é obrigatória")
-  private List<String> supportArea;
+  @JsonIgnore
+  @OneToMany(mappedBy = "volunteer")
+  private List<Support> supports;
 
   public Volunteer() {
   }
 
-  public Volunteer(String name, String gender, Integer age, String cpf, String phone, String cep, String city,
-      String email, String address, List<String> supportArea) {
+  public Volunteer(String name, GenderEnum gender, Integer age, String cpf, String phone, String cep, String city,
+      String email, String address) {
     this.name = name;
     this.gender = gender;
     this.age = age;
@@ -65,7 +66,6 @@ public class Volunteer {
     this.cep = cep;
     this.city = city;
     this.address = address;
-    this.supportArea = supportArea;
   }
 
   public Long getId() {
@@ -80,11 +80,11 @@ public class Volunteer {
     this.name = name;
   }
 
-  public String getGender() {
+  public GenderEnum getGender() {
     return gender;
   }
 
-  public void setGender(String gender) {
+  public void setGender(GenderEnum gender) {
     this.gender = gender;
   }
 
@@ -144,12 +144,12 @@ public class Volunteer {
     this.address = address;
   }
 
-  public List<String> getSupportArea() {
-    return supportArea;
+  public List<Support> getSupports() {
+    return supports;
   }
 
-  public void setSupportArea(List<String> supportArea) {
-    this.supportArea = supportArea;
+  public void setSupports(List<Support> supports) {
+    this.supports = supports;
   }
 
 }

@@ -70,8 +70,8 @@ public class BeneficiaryService {
         if (beneficiary.getName() == null || beneficiary.getName().isEmpty()) {
             throw new IllegalArgumentException("Nome do beneficiário é obrigatório.");
         }
-        if (!beneficiary.getGender().equalsIgnoreCase(GenderEnum.FEMININO.getValor())
-                && !beneficiary.getGender().equalsIgnoreCase(GenderEnum.MASCULINO.getValor())) {
+        if (!beneficiary.getGender().equals(GenderEnum.FEMININO)
+                && !beneficiary.getGender().equals(GenderEnum.MASCULINO)) {
             throw new IllegalArgumentException("Gênero é obrigatório.");
         }
         if (beneficiary.getAge() == null) {

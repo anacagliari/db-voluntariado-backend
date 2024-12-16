@@ -20,7 +20,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import com.startdb.volunteerdb.model.SupportArea;
+import com.startdb.volunteerdb.Enum.GenderEnum;
+import com.startdb.volunteerdb.Enum.SupportAreaEnum;
 import com.startdb.volunteerdb.model.Beneficiary;
 import com.startdb.volunteerdb.repository.BeneficiaryRepository;
 
@@ -47,7 +48,7 @@ public class BeneficiaryServiceTest {
 
     Beneficiary beneficiary = new Beneficiary(
         "Suene Souza",
-        "Feminino",
+        GenderEnum.FEMININO,
         60,
         "12345678901",
         "123456789",
@@ -57,7 +58,7 @@ public class BeneficiaryServiceTest {
         "Endereço A",
         dateFrom,
         dateTo,
-        Arrays.asList("Participação em Atividades Recreativas"));
+        Arrays.asList(SupportAreaEnum.PARTICIPACAO_ATIVIDADES.getDescription()));
     when(beneficiaryRepository.save(beneficiary)).thenReturn(beneficiary);
 
     Beneficiary result = beneficiaryService.createBeneficiary(beneficiary);
@@ -76,7 +77,7 @@ public class BeneficiaryServiceTest {
     List<Beneficiary> beneficiaries = Arrays.asList(
         new Beneficiary(
             "Suene Souza",
-            "Feminino",
+            GenderEnum.FEMININO,
             60,
             "12345678901",
             "123456789",
@@ -86,10 +87,10 @@ public class BeneficiaryServiceTest {
             "Endereço A",
             dateFrom,
             dateTo,
-            Arrays.asList(SupportArea.PARTICIPACAO_ATIVIDADES)),
+            Arrays.asList(SupportAreaEnum.PARTICIPACAO_ATIVIDADES.getDescription())),
         new Beneficiary(
             "Ana Cagliari",
-            "Feminino",
+            GenderEnum.FEMININO,
             60,
             "12345678902",
             "123456789",
@@ -99,7 +100,7 @@ public class BeneficiaryServiceTest {
             "Endereço B",
             dateFrom,
             dateTo,
-            Arrays.asList(SupportArea.REALIZACAO_TAREFAS, SupportArea.APRENDIZADO_TECNOLOGIA)));
+            Arrays.asList(SupportAreaEnum.REALIZACAO_TAREFAS.getDescription(), SupportAreaEnum.APRENDIZADO_TECNOLOGIA.getDescription())));
 
     when(beneficiaryRepository.findAll()).thenReturn(beneficiaries);
 
@@ -118,7 +119,7 @@ public class BeneficiaryServiceTest {
 
     Beneficiary beneficiary = new Beneficiary(
         "Suene Souza",
-        "Feminino",
+        GenderEnum.FEMININO,
         60,
         "12345678901",
         "123456789",
@@ -128,7 +129,7 @@ public class BeneficiaryServiceTest {
         "Endereço A",
         dateFrom,
         dateTo,
-        Arrays.asList("Participação em Atividades Recreativas"));
+        Arrays.asList(SupportAreaEnum.PARTICIPACAO_ATIVIDADES.getDescription()));
     when(beneficiaryRepository.findById(1L)).thenReturn(Optional.of(beneficiary));
 
     Beneficiary result = beneficiaryService.getBeneficiaryById(1L);
@@ -146,7 +147,7 @@ public class BeneficiaryServiceTest {
 
     Beneficiary existingBeneficiary = new Beneficiary(
         "Suene Souza",
-        "Feminino",
+        GenderEnum.FEMININO,
         60,
         "12345678901",
         "123456789",
@@ -156,10 +157,10 @@ public class BeneficiaryServiceTest {
         "Endereço A",
         dateFrom,
         dateTo,
-        Arrays.asList("Participação em Atividades Recreativas"));
+        Arrays.asList(SupportAreaEnum.PARTICIPACAO_ATIVIDADES.getDescription()));
     Beneficiary updatedBeneficiary = new Beneficiary(
         "Su Souza",
-        "Feminino",
+        GenderEnum.FEMININO,
         60,
         "12345678901",
         "123456789",
@@ -169,7 +170,7 @@ public class BeneficiaryServiceTest {
         "Endereço A",
         dateFrom,
         dateTo,
-        Arrays.asList("Participação em Atividades Recreativas"));
+        Arrays.asList(SupportAreaEnum.PARTICIPACAO_ATIVIDADES.getDescription()));
     when(beneficiaryRepository.findById(1L)).thenReturn(Optional.of(existingBeneficiary));
     when(beneficiaryRepository.save(existingBeneficiary)).thenReturn(updatedBeneficiary);
 
@@ -196,7 +197,7 @@ public class BeneficiaryServiceTest {
   void testCriaBeneficiarioComNomeVazio() {
     Beneficiary beneficiary = new Beneficiary();
     beneficiary.setName("");
-    beneficiary.setGender("Feminino");
+    beneficiary.setGender(GenderEnum.FEMININO);
     beneficiary.setAge(60);
     beneficiary.setCpf("12345678901");
     beneficiary.setPhone("123456789");
@@ -206,7 +207,7 @@ public class BeneficiaryServiceTest {
     beneficiary.setAddress("Endereço B");
     beneficiary.setDateFrom(LocalDate.of(2024, 12, 1));
     beneficiary.setDateTo(LocalDate.of(2024, 12, 31));
-    beneficiary.setSupportArea(Arrays.asList(SupportArea.PARTICIPACAO_ATIVIDADES));
+    beneficiary.setSupportArea(Arrays.asList(SupportAreaEnum.PARTICIPACAO_ATIVIDADES.getDescription()));
 
     IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
       beneficiaryService.createBeneficiary(beneficiary);
@@ -223,7 +224,7 @@ public class BeneficiaryServiceTest {
 
     Beneficiary beneficiaryExistente = new Beneficiary(
         "Suene Souza",
-        "Feminino",
+        GenderEnum.FEMININO,
         60,
         "12345678901",
         "123456789",
@@ -233,10 +234,10 @@ public class BeneficiaryServiceTest {
         "Endereço A",
         dateFrom,
         dateTo,
-        Arrays.asList("Participação em Atividades Recreativas"));
+        Arrays.asList(SupportAreaEnum.PARTICIPACAO_ATIVIDADES.getDescription()));
     Beneficiary beneficiaryAtualizado = new Beneficiary(
         "",
-        "Feminino",
+        GenderEnum.FEMININO,
         60,
         "12345678901",
         "123456789",
@@ -246,7 +247,7 @@ public class BeneficiaryServiceTest {
         "Endereço A",
         dateFrom,
         dateTo,
-        Arrays.asList("Participação em Atividades Recreativas"));
+        Arrays.asList(SupportAreaEnum.PARTICIPACAO_ATIVIDADES.getDescription()));
 
     when(beneficiaryRepository.findById(1L)).thenReturn(Optional.of(beneficiaryExistente));
 
