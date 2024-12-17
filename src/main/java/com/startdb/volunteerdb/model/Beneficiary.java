@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.startdb.volunteerdb.Enum.GenderEnum;
+import com.startdb.volunteerdb.Enum.SupportAreaEnum;
 
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
@@ -59,11 +60,9 @@ public class Beneficiary {
     @NotNull(message = "A data de término é obrigatória")
     private LocalDate dateTo;
 
-    @ElementCollection
-    @CollectionTable(name = "beneficiary_support_area", joinColumns = @JoinColumn(name = "beneficiary_id"))
-    @Column(name = "support_area")
-    @NotNull(message = "A area de suporte é obrigatória")
-    private List<String> supportArea;
+    @Column
+    @Enumerated(EnumType.STRING)
+    private SupportAreaEnum supportArea;
 
     @JsonIgnore
     @OneToMany(mappedBy = "beneficiary")
@@ -73,7 +72,7 @@ public class Beneficiary {
     }
 
     public Beneficiary(String name, GenderEnum gender, Integer age, String cpf, String phone, String cep, String city,
-            String email, String address, LocalDate dateFrom, LocalDate dateTo, List<String> supportArea) {
+            String email, String address, LocalDate dateFrom, LocalDate dateTo, SupportAreaEnum supportArea) {
         this.name = name;
         this.gender = gender;
         this.age = age;
@@ -180,11 +179,11 @@ public class Beneficiary {
         this.dateTo = dateTo;
     }
 
-    public List<String> getSupportArea() {
+    public SupportAreaEnum getSupportArea() {
         return supportArea;
     }
 
-    public void setSupportArea(List<String> supportArea) {
+    public void setSupportArea(SupportAreaEnum supportArea) {
         this.supportArea = supportArea;
     }
 
