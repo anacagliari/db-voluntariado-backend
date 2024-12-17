@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.startdb.volunteerdb.Enum.GenderEnum;
+import com.startdb.volunteerdb.Enum.SupportAreaEnum;
 import com.startdb.volunteerdb.model.Beneficiary;
 import com.startdb.volunteerdb.repository.BeneficiaryRepository;
 
@@ -71,7 +72,7 @@ public class BeneficiaryService {
             throw new IllegalArgumentException("Nome do beneficiário é obrigatório.");
         }
         if (!beneficiary.getGender().equals(GenderEnum.FEMININO)
-                && !beneficiary.getGender().equals(GenderEnum.MASCULINO)) {
+            && !beneficiary.getGender().equals(GenderEnum.MASCULINO)) {
             throw new IllegalArgumentException("Gênero é obrigatório.");
         }
         if (beneficiary.getAge() == null) {
@@ -114,8 +115,10 @@ public class BeneficiaryService {
         if (beneficiary.getDateTo() == null) {
             throw new IllegalArgumentException("A data de término é obrigatória.");
         }
-        if (beneficiary.getSupportArea() == null || beneficiary.getSupportArea().isEmpty()) {
-            throw new IllegalArgumentException("A área de suporte é obrigatória.");
-        }
+        if (!beneficiary.getSupportArea().equals(SupportAreaEnum.PARTICIPACAO_ATIVIDADES)
+            &&!beneficiary.getSupportArea().equals(SupportAreaEnum.APRENDIZADO_TECNOLOGIA)
+            &&!beneficiary.getSupportArea().equals(SupportAreaEnum.REALIZACAO_TAREFAS)) {
+                throw new IllegalArgumentException("A área de suporte é obrigatória.");
+            }
     }
 }
