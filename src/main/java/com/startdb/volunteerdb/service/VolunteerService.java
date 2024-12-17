@@ -48,7 +48,6 @@ public class VolunteerService {
     volunteerExistente.setCep(volunteer.getCep());
     volunteerExistente.setAddress(volunteer.getAddress());
     volunteerExistente.setCity(volunteer.getCity());
-    volunteerExistente.setSupportArea(volunteer.getSupportArea());
 
     return volunteerRepository.save(volunteerExistente);
   }
@@ -68,8 +67,8 @@ public class VolunteerService {
     if (volunteer.getName() == null || volunteer.getName().isEmpty()) {
       throw new IllegalArgumentException("Nome do voluntário é obrigatório.");
     }
-    if (!volunteer.getGender().equalsIgnoreCase(GenderEnum.FEMININO.getValor())
-        && !volunteer.getGender().equalsIgnoreCase(GenderEnum.MASCULINO.getValor())) {
+    if (!volunteer.getGender().equals(GenderEnum.FEMININO)
+        && !volunteer.getGender().equals(GenderEnum.MASCULINO)) {
       throw new IllegalArgumentException("Gênero é obrigatório.");
     }
     if (volunteer.getAge() == null) {
@@ -105,9 +104,6 @@ public class VolunteerService {
     }
     if (volunteer.getCity() == null) {
       throw new IllegalArgumentException("A cidade é obrigatória.");
-    }
-    if (volunteer.getSupportArea() == null || volunteer.getSupportArea().isEmpty()) {
-      throw new IllegalArgumentException("A área de suporte é obrigatória.");
     }
   }
 }
