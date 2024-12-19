@@ -19,7 +19,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import com.startdb.volunteerdb.model.SupportArea;
+import com.startdb.volunteerdb.Enum.GenderEnum;
 import com.startdb.volunteerdb.model.Volunteer;
 import com.startdb.volunteerdb.repository.VolunteerRepository;
 
@@ -42,15 +42,14 @@ public class VolunteerServiceMockTest {
   void testCreateVolunteer() {
     Volunteer volunteer = new Volunteer(
         "Suene Souza",
-        "Feminino",
+        GenderEnum.FEMININO,
         30,
         "12345678901",
         "123456789",
         "12345-678",
         "Cidade X",
         "suene@email.com",
-        "Endereço 1",
-        Arrays.asList("Participação em Atividades Recreativas"));
+        "Endereço 1");
     when(volunteerRepository.save(volunteer)).thenReturn(volunteer);
 
     Volunteer result = volunteerService.createVolunteer(volunteer);
@@ -65,26 +64,24 @@ public class VolunteerServiceMockTest {
     List<Volunteer> volunteers = Arrays.asList(
         new Volunteer(
             "Suene Souza",
-            "Feminino",
+            GenderEnum.FEMININO,
             30,
             "12345678901",
             "123456789",
             "12345-678",
             "Cidade X",
             "suene@email.com",
-            "Endereço 1",
-            Arrays.asList(SupportArea.PARTICIPACAO_ATIVIDADES)),
+            "Endereço 1"),
         new Volunteer(
             "Ana Carolina",
-            "Feminino",
+            GenderEnum.FEMININO,
             30,
             "12345678902",
             "123456789",
             "12345-678",
             "Cidade X",
             "ana@email.com",
-            "Endereço 2",
-            Arrays.asList(SupportArea.REALIZACAO_TAREFAS, SupportArea.APRENDIZADO_TECNOLOGIA)));
+            "Endereço 2"));
 
     when(volunteerRepository.findAll()).thenReturn(volunteers);
 
@@ -99,15 +96,14 @@ public class VolunteerServiceMockTest {
   void testGetVolunteerById() {
     Volunteer volunteer = new Volunteer(
         "Suene Souza",
-        "Feminino",
+        GenderEnum.FEMININO,
         30,
         "12345678901",
         "123456789",
         "12345-678",
         "Cidade X",
         "suene@email.com",
-        "Endereço 1",
-        Arrays.asList("Participação em Atividades Recreativas"));
+        "Endereço 1");
     when(volunteerRepository.findById(1L)).thenReturn(Optional.of(volunteer));
 
     Volunteer result = volunteerService.getVolunteerById(1L);
@@ -121,26 +117,24 @@ public class VolunteerServiceMockTest {
   void testUpdateVolunteer() {
     Volunteer existingVolunteer = new Volunteer(
         "Suene Souza",
-        "Feminino",
+        GenderEnum.FEMININO,
         30,
         "12345678901",
         "123456789",
         "12345-678",
         "Cidade X",
         "suene@email.com",
-        "Endereço 1",
-        Arrays.asList("Participação em Atividades Recreativas"));
+        "Endereço 1");
     Volunteer updatedVolunteer = new Volunteer(
         "Su Souza",
-        "Feminino",
+        GenderEnum.FEMININO,
         30,
         "12345678901",
         "123456789",
         "12345-678",
         "Cidade X",
         "suene@email.com",
-        "Endereço 1",
-        Arrays.asList("Participação em Atividades Recreativas"));
+        "Endereço 1");
     when(volunteerRepository.findById(1L)).thenReturn(Optional.of(existingVolunteer));
     when(volunteerRepository.save(existingVolunteer)).thenReturn(updatedVolunteer);
 
@@ -167,7 +161,7 @@ public class VolunteerServiceMockTest {
   void testCriaVoluntarioComNomeVazio() {
     Volunteer volunteer = new Volunteer();
     volunteer.setName("");
-    volunteer.setGender("Feminino");
+    volunteer.setGender(GenderEnum.FEMININO);
     volunteer.setAge(30);
     volunteer.setCpf("12345678901");
     volunteer.setPhone("123456789");
@@ -175,7 +169,6 @@ public class VolunteerServiceMockTest {
     volunteer.setCity("Cidade X");
     volunteer.setEmail("suene@email.com");
     volunteer.setAddress("Endereço 1");
-    volunteer.setSupportArea(Arrays.asList(SupportArea.PARTICIPACAO_ATIVIDADES));
 
     IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
       volunteerService.createVolunteer(volunteer);
@@ -188,26 +181,24 @@ public class VolunteerServiceMockTest {
   void testAtualizaVoluntarioComNomeVazio() {
     Volunteer volunteerExistente = new Volunteer(
         "Suene Souza",
-        "Feminino",
+        GenderEnum.FEMININO,
         30,
         "12345678901",
         "123456789",
         "12345-678",
         "Cidade X",
         "suene@email.com",
-        "Endereço 1",
-        Arrays.asList("Participação em Atividades Recreativas"));
+        "Endereço 1");
     Volunteer volunteerAtualizado = new Volunteer(
         "",
-        "Feminino",
+        GenderEnum.FEMININO,
         30,
         "12345678901",
         "123456789",
         "12345-678",
         "Cidade X",
         "suene@email.com",
-        "Endereço 1",
-        Arrays.asList("Participação em Atividades Recreativas"));
+        "Endereço 1");
 
     when(volunteerRepository.findById(1L)).thenReturn(Optional.of(volunteerExistente));
 
