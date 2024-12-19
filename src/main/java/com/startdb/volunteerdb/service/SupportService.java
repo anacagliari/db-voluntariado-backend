@@ -23,43 +23,7 @@ public class SupportService {
     private BeneficiaryService beneficiaryService;
 
     public Support createSupport(Support support) {
-        if (support == null) {
-            throw new IllegalArgumentException("Dados não informados.");
-        }
-        if (support.getVolunteer() == null || support.getVolunteer().getId() == null) {
-            throw new IllegalArgumentException("Voluntário não informado.");
-        }
-        if (support.getBeneficiary() == null || support.getBeneficiary().getId() == null) {
-            throw new IllegalArgumentException("Beneficiário não informado.");
-        }
-        if (support.getSupportArea() == null) {
-            throw new IllegalArgumentException("Área de atuação não informada.");
-        }
-        if (support.getDateFrom() == null) {
-            throw new IllegalArgumentException("Data de início não informada.");
-        }
-        if (support.getDateTo() == null) {
-            throw new IllegalArgumentException("Data de término não informada.");
-        }
-        if (support.getDateFrom().isAfter(support.getDateTo())) {
-            throw new IllegalArgumentException("Data de início não pode ser posterior à data de término.");
-        }
-
-        Volunteer volunteer = volunteerService.getVolunteerById(support.getVolunteer().getId());
-
-        if (volunteer == null) {
-            throw new IllegalArgumentException("Voluntário não encontrado.");
-        }
-
-        Beneficiary beneficiary = beneficiaryService.getBeneficiaryById(support.getBeneficiary().getId());
-
-        if (beneficiary == null) {
-            throw new IllegalArgumentException("Beneficiário não encontrado.");
-        }
-
-        support.setVolunteer(volunteer);
-        support.setBeneficiary(beneficiary);
-
+        this.validateSaveSupport(support);
         return supportRepository.save(support);
     }
 
@@ -83,6 +47,24 @@ public class SupportService {
         }
 
         supportRepository.deleteById(id);
+    }
+    
+    private void validateSaveSupport(Support support) {
+        if (support == null) {
+            throw new IllegalArgumentException("Dados não informados.");
+        }
+
+        Volunteer volunteer = volunteerService.getVolunteerById(support.getVolunteer().getId());
+
+        if (volunteer == null) {
+            throw new IllegalArgumentException("Voluntário não encontrado.");
+        }
+
+        Beneficiary beneficiary = beneficiaryService.getBeneficiaryById(support.getBeneficiary().getId());
+
+        if (beneficiary == null) {
+            throw new IllegalArgumentException("Beneficiário não encontrado.");
+        }
     }
 
 }
