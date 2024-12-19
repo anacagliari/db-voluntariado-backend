@@ -2,8 +2,8 @@ package com.startdb.volunteerdb.controller;
 
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.any;
+import static org.mockito.ArgumentMatchers.any;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -13,18 +13,22 @@ import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.startdb.volunteerdb.Enum.GenderEnum;
 import com.startdb.volunteerdb.model.Volunteer;
+
 import com.startdb.volunteerdb.service.VolunteerService;
 
+@ExtendWith(MockitoExtension.class)
 class VolunteerControllerMockTest {
 
     @Mock
@@ -33,7 +37,6 @@ class VolunteerControllerMockTest {
     @InjectMocks
     private VolunteerController volunteerController;
 
-    @Autowired
     private MockMvc mockMvc;
 
     private ObjectMapper objectMapper = new ObjectMapper();
@@ -48,15 +51,14 @@ class VolunteerControllerMockTest {
     void testCreateVolunteer_Success() throws Exception {
         Volunteer volunteer = new Volunteer(
             "Ana",
-            "Feminino",
+            GenderEnum.FEMININO,
             25,
             "12345678901",
             "123456789",
             "12345-678",
             "Cidade X",
             "ana@email.com",
-            "Endereço 1",
-            Arrays.asList("Participação em Atividades")
+            "Endereço 1"
         );
 
         when(volunteerService.createVolunteer(any(Volunteer.class))).thenReturn(volunteer);
@@ -72,9 +74,9 @@ class VolunteerControllerMockTest {
 
     @Test
     void testCreateVolunteer_BadRequest() throws Exception {
-        when(volunteerService.createVolunteer(any(Volunteer.class))).thenThrow(new IllegalArgumentException());
-
         Volunteer invalidVolunteer = new Volunteer();
+
+        when(volunteerService.createVolunteer(any(Volunteer.class))).thenThrow(new IllegalArgumentException());
 
         mockMvc.perform(post("/volunteers")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -87,8 +89,8 @@ class VolunteerControllerMockTest {
     @Test
     void testGetAllVolunteers_Success() throws Exception {
         List<Volunteer> volunteers = Arrays.asList(
-            new Volunteer("Ana", "Feminino", 25, "12345678901", "123456789", "12345-678", "Cidade X", "ana@email.com", "Endereço 1", Arrays.asList("Atividades")),
-            new Volunteer("Suene", "Feminino", 30, "98765432101", "987654321", "54321-678", "Cidade Y", "suene@email.com", "Endereço 2", Arrays.asList("Tarefas"))
+            new Volunteer("Ana", GenderEnum.FEMININO, 25, "12345678901", "123456789", "12345-678", "Cidade X", "ana@email.com", "Endereço 1"),
+            new Volunteer("Suene", GenderEnum.FEMININO, 30, "98765432101", "987654321", "54321-678", "Cidade Y", "suene@email.com", "Endereço 2")
         );
 
         when(volunteerService.getAllVolunteers()).thenReturn(volunteers);
@@ -113,7 +115,7 @@ class VolunteerControllerMockTest {
 
     @Test
     void testGetVolunteerById_Success() throws Exception {
-        Volunteer volunteer = new Volunteer("Ana", "Feminino", 25, "12345678901", "123456789", "12345-678", "Cidade X", "ana@email.com", "Endereço 1", Arrays.asList("Atividades"));
+        Volunteer volunteer = new Volunteer("Ana", GenderEnum.FEMININO, 25, "12345678901", "123456789", "12345-678", "Cidade X", "ana@email.com", "Endereço 1");
 
         when(volunteerService.getVolunteerById(1L)).thenReturn(volunteer);
 
@@ -134,31 +136,6 @@ class VolunteerControllerMockTest {
         verify(volunteerService).getVolunteerById(1L);
     }
 
-    // @Test
-    // void testUpdateVolunteer_Success() throws Exception {
-    //     Volunteer updatedVolunteer =  new Volunteer(
-    //         "Ana Caroline",
-    //         "Feminino",
-    //         25,
-    //         "12345678901",
-    //         "123456789",
-    //         "12345-678",
-    //         "Cidade X",
-    //         "ana@email.com",
-    //         "Endereço 1",
-    //         Arrays.asList("Participação em Atividades")
-    //     );
-
-    //     when(volunteerService.updateVolunteer(eq(1L), eq(updatedVolunteer))).thenReturn(updatedVolunteer);
-
-    //     mockMvc.perform(put("/volunteers/1")
-    //             .contentType(MediaType.APPLICATION_JSON)
-    //             .content(objectMapper.writeValueAsString(updatedVolunteer)))
-    //         .andExpect(status().isOk())
-    //         .andExpect(jsonPath("$.name").value("Ana Caroline"));
-
-    //     verify(volunteerService).updateVolunteer(eq(1L), eq(updatedVolunteer));
-    // }
 
     @Test
     void testDeleteVolunteer_Success() throws Exception {
