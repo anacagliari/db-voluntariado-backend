@@ -23,7 +23,7 @@ import com.startdb.volunteerdb.Enum.GenderEnum;
 import com.startdb.volunteerdb.model.Volunteer;
 import com.startdb.volunteerdb.repository.VolunteerRepository;
 
-public class VolunteerServiceTest {
+public class VolunteerServiceMockTest {
 
   @Mock
   private VolunteerRepository volunteerRepository;
